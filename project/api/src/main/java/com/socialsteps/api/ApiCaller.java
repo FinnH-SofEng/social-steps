@@ -1,13 +1,15 @@
-package com.socialsteps.demo;
+package com.socialsteps.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController {
+public class  ApiCaller{
 
     @GetMapping("/test")
     public String test() {
         return "Spring Boot is working!";
     }
+
+    
 }
