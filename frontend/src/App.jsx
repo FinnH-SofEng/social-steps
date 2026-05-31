@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import CreateWalk from './WalkForm'
 import axios from 'axios'
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
   return (
     <div>
       <h1>Walks</h1>
-
+      <CreateWalk onWalkCreated={loadWalks} />
       {walks.map(walk => (
         <div key={walk.id}>
           <h3>{walk.title}</h3>

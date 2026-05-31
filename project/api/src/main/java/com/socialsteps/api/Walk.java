@@ -18,12 +18,19 @@ public class Walk {
     @ManyToMany
     private List<User> participants = new ArrayList<>();
 
-    @ManyToOne
-    private Route route;
+    private String name;
 
+    @OneToOne
+    private Route route;
     private LocalDateTime time;
 
-    public Walk(List<User> participants, Route route, LocalDateTime time) {
+    public Walk(String name, String time){
+        this.name = name;
+        this.time = LocalDateTime.parse(time);
+    }
+
+    public Walk(String name, List<User> participants, Route route, LocalDateTime time) {
+        this.name = name;
         this.participants = participants;
         this.route = route;
         this.time = time;
@@ -31,6 +38,18 @@ public class Walk {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
+    }
+
+    public String getName() {
+    return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<User> getParticipants() {
