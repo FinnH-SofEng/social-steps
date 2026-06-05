@@ -1,19 +1,22 @@
 import axios from "axios";
-export default function CreateWalk() {
+
+export default function CreateWalk({ onWalkCreated }) {
   async function handleCreateWalk(formData) {
-    const query = formData.get("query");
-    await axios.post("http://localhost:8081/api/walks",
-    {
-        name: "name",
-        time: "time"
+    const name = formData.get("name");
+    const time = formData.get("time");
+
+    await axios.post("http://localhost:8081/api/walks", {
+      name,
+      time
     });
+
     onWalkCreated();
-    alert(`You created a walk for '${query}'`);
   }
+
   return (
     <form action={handleCreateWalk}>
-      <input name="name" defaultValue={"name"}/>
-      <input name="time" defaultValue={"time 'MM/DD/YYYY xx:xx am/pm'"}/>
+      <input name="name" placeholder="Walk name" />
+      <input name="time" type="datetime-local" />
       <button type="submit">Create Walk</button>
     </form>
   );
