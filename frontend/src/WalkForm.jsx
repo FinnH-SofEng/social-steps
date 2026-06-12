@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export default function CreateWalk({ onWalkCreated }) {
   async function handleCreateWalk(formData) {
     const name = formData.get("name");
