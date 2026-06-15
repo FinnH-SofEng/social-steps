@@ -1,4 +1,4 @@
-package com.socialsteps.api;
+package com.socialsteps.api.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,9 +24,10 @@ public class Walk {
     private Route route;
     private LocalDateTime time;
 
-    public Walk(String name, String time){
+    public Walk(Long id, String name, LocalDateTime time){
+        this.id = id;
         this.name = name;
-        this.time = LocalDateTime.parse(time);
+        this.time = time;
     }
 
     public Walk(String name, List<User> participants, Route route, LocalDateTime time) {
