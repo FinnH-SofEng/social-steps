@@ -5,18 +5,18 @@ import com.socialsteps.api.service.UserManager;
 
 public class CreateAccount implements Action<User>{
     private UserManager receiver;
-    private Long id;
     private String username;
     private String password;
 
-    public CreateAccount(){
-
+    public CreateAccount(UserManager receiver, String username, String password){
+        this.receiver = receiver;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
     public User performAction() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+        return receiver.addUser(new User(this.username, this.password));
     }
     
 }
