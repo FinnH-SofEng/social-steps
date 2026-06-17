@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.socialsteps.api.WalkRepository;
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.model.User;
+import com.socialsteps.api.repo.WalkRepository;
 import com.socialsteps.api.service.UserManager;
 
 @CrossOrigin(origins = "http://localhost:5173")

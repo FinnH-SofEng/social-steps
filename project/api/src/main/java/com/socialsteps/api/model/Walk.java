@@ -24,8 +24,7 @@ public class Walk {
     private Route route;
     private LocalDateTime time;
 
-    public Walk(Long id, String name, LocalDateTime time){
-        this.id = id;
+    public Walk(String name, LocalDateTime time){
         this.name = name;
         this.time = time;
     }

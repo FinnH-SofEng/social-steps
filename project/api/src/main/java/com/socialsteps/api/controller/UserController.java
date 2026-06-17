@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.socialsteps.api.WalkRepository;
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.model.User;
 import com.socialsteps.api.model.Walk;
+import com.socialsteps.api.repo.WalkRepository;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
