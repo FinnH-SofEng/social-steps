@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import CreateWalk from './WalkForm'
+import CreateAccount from './LoginForm'
 import axios from 'axios'
 
 function App() {
   const [walks, setWalks] = useState([])
+  const [status, setStatus] = useState('logged out')
 
   async function loadWalks() {
     try {
@@ -16,6 +18,10 @@ function App() {
     }
   }
 
+  async function createAccount(){
+    setStatus('logged in')
+  }
+
   useEffect(() => {
   axios.get('http://localhost:8081/api/walks')
     .then(response => {
@@ -26,8 +32,8 @@ function App() {
     })
 }, [])
 
-  return (
-  <div>
+  if (status === 'logged in'){
+    return <div>
     <h1>Walks</h1>
 
     <CreateWalk onWalkCreated={loadWalks} />
@@ -38,8 +44,12 @@ function App() {
         <p>{walk.time}</p>
       </div>
     ))}
-  </div>
-);
+  </div>  
+  }
+
+  return (
+    <CreateAccount onAccountCreated={createAccount}></CreateAccount>
+  );
 }
 
 export default App

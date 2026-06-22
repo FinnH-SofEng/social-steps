@@ -17,14 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private boolean isLoggedIn;
+    private Boolean isLoggedIn;
     private String username;
     private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "recipient")
     private List<Notification> notifications;
 
+    public User(){
+
+    }
+    
     public User(String username, String password){
         this.username = username;
         this.password = password;
