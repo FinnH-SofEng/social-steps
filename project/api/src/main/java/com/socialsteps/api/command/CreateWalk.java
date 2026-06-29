@@ -10,15 +10,16 @@ public class CreateWalk implements Action<Walk>{
     private WalkManager receiver;
     private String name;
     private LocalDateTime time;
-    public CreateWalk(WalkManager receiver, String name, LocalDateTime time){
+    private Long creatorId;
+    public CreateWalk(WalkManager receiver, Long creatorId, String name, LocalDateTime time){
         this.receiver = receiver;
         this.name = name;
         this.time = time;
-
+        this.creatorId = creatorId;
     }
     @Override
     public Walk performAction() {
-        return receiver.addWalk(name, time);
+        return receiver.addWalk(creatorId, name, time);
     }
     
 }

@@ -1,25 +1,28 @@
 import axios from 'axios'
-export default function CreateAccount({ onAccountCreated }){
+export default function Login({OnLoggedIn}){
+    async function handleLogin(formData){
+        const isLoggedIn = true;
+        const username = formData.get("username");
+        const password = formData.get("password");
 
-    async function handleCreateAccount(formData) {
-    const isLoggedIn = true;
-    const username = formData.get("username");
-    const password = formData.get("password");
+        await axios.post("http://localhost:8081/api/login", {
+            isLoggedIn,
+            username,
+            password
+        }).then(response=>{
+            OnLoggedIn(response.data);
+        }).catch(error=>{
+            console.log(error);
+        })
 
-    await axios.post("http://localhost:8081/api/user", {
-      isLoggedIn,
-      username,
-      password
-    });
+        
 
-    onAccountCreated();
-  }
-
-    return(
-        <form action={handleCreateAccount}>
+    }
+    return( 
+        <form action={handleLogin}>
             <input name="username" placeholder="Username" />
             <input name="password" type="password" />
-            <button type="submit">Create Account</button>
+            <button type="submit">Login</button>
         </form>
     );
 }

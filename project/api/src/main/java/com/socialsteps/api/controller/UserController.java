@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateAccount;
 import com.socialsteps.api.model.User;
-import com.socialsteps.api.model.Walk;
-import com.socialsteps.api.repo.UserRepository;
 import com.socialsteps.api.service.UserManager;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -26,10 +24,8 @@ public class UserController extends Controller<User>{
     }
 
     @PostMapping
-    public Walk createAccount(@RequestBody User user) {
+    public User createAccount(@RequestBody User user) {
         this.command = new CreateAccount(this.userManager, user.getUsername(), user.getPassword());
-        command.performAction();
-        //placeholdser for error
-        return new Walk();
+        return command.performAction();
     }
 }

@@ -7,4 +7,7 @@ public abstract class Controller<E> {
     public void setCommand(Action<E> command){
         this.command = command;
     }
+    public Action<E> getCommand(){
+        return this.command;
+    }
 }

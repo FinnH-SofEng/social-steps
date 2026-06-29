@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateWalk;
@@ -28,17 +28,25 @@ public class WalkController extends Controller<Walk>{
         this.walkManager = walkManager;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Walk createWalk(@RequestBody Walk walk) {
-        this.command = new CreateWalk(this.walkManager, walk.getName(), walk.getTime());
+        this.command = new CreateWalk(this.walkManager, walk.getCreatorId(), walk.getName(), walk.getTime());
 
         return command.performAction();
     }
+
+    @GetMapping("/user/{id}")
+    public List<Walk> getWalksById(@PathVariable String id){
+        return walkManager.getWalksById(Long.parseLong(id));
+    }
+    
 
     @GetMapping
     public List<Walk> getAllWalks() {
         return walkManager.getAllWalks();
     }
+
+
 
     
 }

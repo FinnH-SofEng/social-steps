@@ -15,6 +15,8 @@ public class Walk {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long creatorId;
+
     @ManyToMany
     private List<User> participants = new ArrayList<>();
 
@@ -24,7 +26,8 @@ public class Walk {
     private Route route;
     private LocalDateTime time;
 
-    public Walk(String name, LocalDateTime time){
+    public Walk(Long userId, String name, LocalDateTime time){
+        this.creatorId = userId;
         this.name = name;
         this.time = time;
     }
@@ -34,6 +37,10 @@ public class Walk {
         this.participants = participants;
         this.route = route;
         this.time = time;
+    }
+
+    public Long getCreatorId(){
+        return this.creatorId;
     }
 
     public Long getId() {
@@ -58,6 +65,10 @@ public class Walk {
 
     public void setParticipants(List<User> participants) {
         this.participants = participants;
+    }
+
+    public void addParticipant(User participant){
+        this.participants.add(participant);
     }
 
     public Route getRoute() {
