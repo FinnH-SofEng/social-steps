@@ -3,6 +3,7 @@ import CreateWalk from './WalkForm'
 import CreateAccount from './CreateForm'
 import Login from './LoginForm'
 import axios from 'axios'
+import Friends from './Friends'
 
 function App() {
   const [walks, setWalks] = useState([])
@@ -53,7 +54,12 @@ function App() {
         <p>{walk.time}</p>
       </div>
     ))}
+    
+    <Friends id = {id}></Friends>
+      
+    
   </div>  
+
   }
 
   return (

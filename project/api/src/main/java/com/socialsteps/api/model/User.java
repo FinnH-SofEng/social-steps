@@ -1,11 +1,15 @@
 package com.socialsteps.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -18,18 +22,41 @@ public class User {
 
     private Boolean isLoggedIn;
     private String username;
+
+   
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recipient")
     private List<Notification> notifications;
 
-    public User(){
+    @JsonIgnore
+    @ManyToMany
+    private List<User> friends;
 
+    public User(){
+        this.notifications = new ArrayList<>();
+        this.friends = new ArrayList<>();
     }
     
     public User(String username, String password){
         this.username = username;
         this.password = password;
+        this.notifications = new ArrayList<>();
+        this.friends = new ArrayList<>();
+    }
+
+    public List<User> getFriends(){
+        return this.friends;
+    }
+
+    public void setFriends(List<User> friends){
+        this.friends = friends;    
+    }
+
+    public User addFriend(User friend){
+        this.friends.add(friend);
+        return friend;
     }
 
     public Long getId() {

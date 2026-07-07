@@ -1,6 +1,11 @@
 package com.socialsteps.api.controller;
 
+import java.io.Console;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateAccount;
+import com.socialsteps.api.dto.UserResponse;
 import com.socialsteps.api.model.User;
 import com.socialsteps.api.service.UserManager;
 
@@ -28,4 +34,15 @@ public class UserController extends Controller<User>{
         this.command = new CreateAccount(this.userManager, user.getUsername(), user.getPassword());
         return command.performAction();
     }
+
+    @GetMapping("/friends/{id}")
+    public List<UserResponse> getFriendsById(@PathVariable String id){
+        List<UserResponse> userresponses = userManager.getFriendsById(Long.parseLong(id))
+        .stream()
+        .map(user -> new UserResponse(user.getId(), user.getUsername()))
+        .toList();
+        
+        return userresponses;
+    }
+    
 }
