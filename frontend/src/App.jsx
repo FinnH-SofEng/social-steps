@@ -4,6 +4,8 @@ import CreateAccount from './CreateForm'
 import Login from './LoginForm'
 import axios from 'axios'
 import Friends from './Friends'
+import CreateInvite from './FriendForm'
+import Notifications from './Notifications'
 
 function App() {
   const [walks, setWalks] = useState([])
@@ -22,7 +24,9 @@ function App() {
       console.error(error)
     }
   }
-
+  async function inviteSent(){
+    console.log("sent")
+  }
   async function createAccount(){
     setStatus('logged in');
   }
@@ -56,6 +60,10 @@ function App() {
     ))}
     
     <Friends id = {id}></Friends>
+
+    <CreateInvite userId = {id} onInviteSent={inviteSent}></CreateInvite>
+
+    <Notifications userId = {id} ></Notifications>
       
     
   </div>  

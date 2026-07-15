@@ -55,7 +55,8 @@ public class User {
     }
 
     public User addFriend(User friend){
-        this.friends.add(friend);
+        this.notifications.add(new Notification(this, friend));
+        //this.friends.add(friend);
         return friend;
     }
 
@@ -101,6 +102,10 @@ public class User {
 
     public void setNotifications(List<Notification> notifications){
         this.notifications = notifications;
+    }
+
+    public void addNotification(Notification notification){
+        this.notifications.add(notification);
     }
 
 }
