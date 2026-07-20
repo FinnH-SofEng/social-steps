@@ -8,6 +8,7 @@ export default function Friends({id}){
             `http://localhost:8081/api/user/friends/${id}`
         )
         setFriends(response.data)
+        console.log(response.data);
         } catch (error) {
         console.error(error)
         }
@@ -23,6 +24,7 @@ export default function Friends({id}){
         <h2>Friends</h2>
         {friends.map(user => (
             <div key = {user.id}>
+                {user.id}
                 <h3>{user.username}</h3>
             </div>
         ))}

@@ -1,6 +1,8 @@
 package com.socialsteps.api.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,22 @@ public class UserManager {
         return null;
     }
 
+    public void acceptRequest(Long notificationId, Long senderId, Long recipientId){
+        User sender = userRepository.findById(senderId).orElseThrow();
+        User recipient = userRepository.findById(recipientId).orElseThrow();
+
+        sender.acceptFriend(recipient);
+        recipient.acceptFriend(sender);
+
+        Optional<Notification> notification = notificationRepository.findById(notificationId);
+        if(notification.isPresent()){
+            Notification realNotification = notification.orElse(null);
+            notificationRepository.delete(realNotification);
+        }
+
+        
+    }
+
     public User getUserById(Long id){
         return userRepository.findById(id).orElse(null);
     }
@@ -55,6 +73,7 @@ public class UserManager {
         .orElseThrow();
 
         Notification notification = new Notification(sender, recipient);
+  
         notificationRepository.save(notification);
     }
     
@@ -66,15 +85,18 @@ public class UserManager {
 
     @Transactional
     public List<User> getFriendsById(Long id){
-        User user = getUserById(id);
+        User user = userRepository.findById(id).orElse(null);
         System.out.println("USER"+ user.getUsername());
-        return user.getFriends();
+        if(!user.equals(null)){
+            return user.getFriends();
+        }
+        return new ArrayList<>();
         
     }
 
     @Transactional
     public List<Notification> getNotificationsById(Long id){
-        User user = getUserById(id);
+        User user = userRepository.findById(id).orElse(null);
         return user.getNotifications();
     }
 }

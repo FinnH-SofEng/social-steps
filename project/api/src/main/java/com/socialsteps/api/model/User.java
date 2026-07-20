@@ -60,6 +60,10 @@ public class User {
         return friend;
     }
 
+    public void acceptFriend(User friend){
+        this.friends.add(friend);
+    }
+
     public Long getId() {
         return id;
     }

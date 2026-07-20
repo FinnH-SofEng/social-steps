@@ -49,6 +49,22 @@ public class Notification {
         this.recipient = recipient;
     }
 
+    public User getRecipient(){
+        return this.recipient;
+    }
+
+    public NotificationType getType(){
+        return this.type;
+    }
+
+    public User getSender(){
+        return this.sender;
+    }
+
+    public String getMessage(){
+        return this.message;
+    }
+
     public void setType(NotificationType type){
         this.type = type;
     }
