@@ -1,8 +1,9 @@
 package com.socialsteps.api.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,14 +36,22 @@ public class UserManager {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         List<User> queriedUsers = getAllUsers();
         for (User u : queriedUsers){
-            if (u.getUsername().equals(user.getUsername()) &&
-            encoder.matches(user.getPassword(), u.getPassword())) {
-            return u;
+            try{
+                if (u.getUsername() != null &&
+                    u.getUsername().equals(user.getUsername()) &&
+                    encoder.matches(user.getPassword(), u.getPassword())) {
+
+                    return u;
+                }
+            }
+            catch(Error e){
+
             }
         }
         return null;
     }
 
+    @Transactional
     public void acceptRequest(Long notificationId, Long senderId, Long recipientId){
         User sender = userRepository.findById(senderId).orElseThrow();
         User recipient = userRepository.findById(recipientId).orElseThrow();
@@ -57,6 +66,13 @@ public class UserManager {
         }
 
         
+    }
+
+    public void ignoreInvite(Long notificationId){
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow();
+
+        notificationRepository.delete(notification);
+
     }
 
     public User getUserById(Long id){
@@ -84,14 +100,13 @@ public class UserManager {
     }
 
     @Transactional
-    public List<User> getFriendsById(Long id){
+    public Set<User> getFriendsById(Long id){
         User user = userRepository.findById(id).orElse(null);
         System.out.println("USER"+ user.getUsername());
         if(!user.equals(null)){
             return user.getFriends();
         }
-        return new ArrayList<>();
-        
+        return new HashSet<User>();
     }
 
     @Transactional

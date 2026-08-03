@@ -6,6 +6,7 @@ import axios from 'axios'
 import Friends from './Friends'
 import CreateInvite from './FriendForm'
 import Notifications from './Notifications'
+import SendInvite from './WalkInvite'
 
 function App() {
   const [walks, setWalks] = useState([])
@@ -30,6 +31,9 @@ function App() {
   async function createAccount(){
     setStatus('logged in');
   }
+  async function loadNotifications(){
+
+  }
 
   async function login(user){
     setStatus('logged in');
@@ -48,15 +52,27 @@ function App() {
 
   if (status === 'logged in'){
     return <div>
-    <h1>Walks</h1>
-
+      <h1>Create Walk</h1>
     <CreateWalk userId = {id} onWalkCreated={loadWalks} />
 
+    <h1>Walks</h1>
+    
     {walks.map(walk => (
       <div key={walk.id}>
-        <h3>{walk.name}</h3>
+        <h2>{walk.name}</h2>
         <p>{walk.time}</p>
-      </div>
+        <h4>Walk Participants</h4>
+        {walk.participants.map(participant =>(
+          <div key={participant.id}>
+            <p>{participant.username}</p>
+          </div>
+        ))}
+        <SendInvite
+        userId={id}
+        walkId={walk.id}
+        onInviteSent={loadNotifications}
+        />
+      </div>  
     ))}
     
     <Friends id = {id}></Friends>

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import com.socialsteps.api.model.Notification;
 import com.socialsteps.api.model.User;
 import com.socialsteps.api.model.Walk;
+import com.socialsteps.api.repo.NotificationRepository;
 import com.socialsteps.api.repo.UserRepository;
 import com.socialsteps.api.repo.WalkRepository;
 
@@ -13,11 +15,13 @@ import com.socialsteps.api.repo.WalkRepository;
 public class WalkManager {
     private final WalkRepository walkRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
     private List<Walk> walks;
 
-    public WalkManager(WalkRepository walkRepository, UserRepository userRepository){
+    public WalkManager(WalkRepository walkRepository, UserRepository userRepository, NotificationRepository notificationRepository){
         this.walkRepository = walkRepository;
         this.userRepository = userRepository;
+        this.notificationRepository = notificationRepository;
         
         this.walks = this.getAllWalks();
     }
@@ -27,7 +31,7 @@ public class WalkManager {
         
         List<User> users = userRepository.findAll();
         for(User user : users){
-            if(user.getId() == creatorId){
+            if(user.getId().equals(creatorId)){
                 walk.addParticipant(user);
             }
         }
@@ -35,6 +39,31 @@ public class WalkManager {
         walkRepository.save(walk);
         return walk;
     }
+
+    public void inviteUser(Long senderId, Long walkId, Long userId){
+        User sender = userRepository.findById(senderId).orElseThrow();
+        Walk walk = walkRepository.findById(walkId).orElseThrow();
+        User recipient = userRepository.findById(userId).orElseThrow();
+
+        Notification notification = new Notification(sender, walk, recipient);
+
+        notificationRepository.save(notification);
+    }
+
+    public void acceptInvite(Long notificationId){
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow();
+
+        notification.getWalk().addParticipant(notification.getRecipient());
+
+        notificationRepository.delete(notification);
+    }
+
+    public void declineInvite(Long notificationId){
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow();
+
+        notificationRepository.delete(notification);
+    }
+
 
     public List<Walk> getAllWalks() {
         return walkRepository.findAll();
@@ -47,7 +76,7 @@ public class WalkManager {
         for(Walk walk : allWalks){
             for(User user : walk.getParticipants()){
                 System.out.println("" + user.getId() + " " + id);
-                if(user.getId() == id){
+                if(user.getId().equals(id)){
                     System.out.println("ADDED");
                     userWalks.add(walk);
                 }

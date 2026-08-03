@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateAccount;
 import com.socialsteps.api.dto.FriendInviteConfirmation;
+import com.socialsteps.api.dto.FriendInviteDenial;
 import com.socialsteps.api.dto.FriendInviteRequest;
 import com.socialsteps.api.dto.UserResponse;
 import com.socialsteps.api.model.Notification;
@@ -45,6 +46,11 @@ public class UserController extends Controller<User>{
     @PostMapping("/accept")
     public void acceptInvite(@RequestBody FriendInviteConfirmation confirmation){
         userManager.acceptRequest(confirmation.notificationId(), confirmation.senderId(), confirmation.recipientId());
+    }
+
+    @PostMapping("/ignore")
+    public void ignoreInvite(@RequestBody FriendInviteDenial denial){
+        userManager.ignoreInvite(denial.notificationId());
     }
 
     @GetMapping("/notifications/{id}")

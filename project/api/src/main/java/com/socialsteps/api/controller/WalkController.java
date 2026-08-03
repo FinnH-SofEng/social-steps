@@ -2,6 +2,8 @@ package com.socialsteps.api.controller;
 
 import java.util.List;
 
+
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateWalk;
+import com.socialsteps.api.dto.NotificationInfo;
+import com.socialsteps.api.dto.WalkInviteRequest;
 import com.socialsteps.api.model.Walk;
 import com.socialsteps.api.service.WalkManager;
 
@@ -38,6 +42,25 @@ public class WalkController extends Controller<Walk>{
     @GetMapping("/user/{id}")
     public List<Walk> getWalksById(@PathVariable String id){
         return walkManager.getWalksById(Long.parseLong(id));
+    }
+
+    @PostMapping("/invite")
+    public void inviteToWalk(@RequestBody WalkInviteRequest request) {
+        walkManager.inviteUser(
+            request.userId(),
+            request.walkId(),
+            request.recipientId()
+        );
+    }
+
+    @PostMapping("/accept")
+    public void acceptInvite(@RequestBody NotificationInfo info){
+        walkManager.acceptInvite(info.notificationId());
+    }
+
+    @PostMapping("/decline")
+    public void declineInvite(@RequestBody NotificationInfo info){
+        walkManager.declineInvite(info.notificationId());
     }
     
 
