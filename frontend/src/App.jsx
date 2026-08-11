@@ -54,7 +54,7 @@ function App() {
     return <div>
       <h1>Create Walk</h1>
     <CreateWalk userId = {id} onWalkCreated={loadWalks} />
-
+    
     <h1>Walks</h1>
     
     {walks.map(walk => (

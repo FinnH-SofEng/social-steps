@@ -16,6 +16,7 @@ import com.socialsteps.api.command.Action;
 import com.socialsteps.api.command.CreateWalk;
 import com.socialsteps.api.dto.NotificationInfo;
 import com.socialsteps.api.dto.WalkInviteRequest;
+import com.socialsteps.api.dto.CreateWalkRequest;
 import com.socialsteps.api.model.Walk;
 import com.socialsteps.api.service.WalkManager;
 
@@ -33,10 +34,14 @@ public class WalkController extends Controller<Walk>{
     }
 
     @PostMapping("/create")
-    public Walk createWalk(@RequestBody Walk walk) {
-        this.command = new CreateWalk(this.walkManager, walk.getCreatorId(), walk.getName(), walk.getTime());
-
-        return command.performAction();
+    public Walk createWalk(@RequestBody CreateWalkRequest request) {
+        return walkManager.addWalk(
+            request.creatorId(),
+            request.name(),
+            request.time(),
+            request.latitude(),
+            request.longitude()
+        );
     }
 
     @GetMapping("/user/{id}")

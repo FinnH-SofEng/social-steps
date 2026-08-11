@@ -11,15 +11,20 @@ public class CreateWalk implements Action<Walk>{
     private String name;
     private LocalDateTime time;
     private Long creatorId;
-    public CreateWalk(WalkManager receiver, Long creatorId, String name, LocalDateTime time){
+    private Double latitude;
+    private Double longitude;
+    public CreateWalk(WalkManager receiver, Long creatorId, String name, LocalDateTime time, Double latitude, Double longitude){
         this.receiver = receiver;
         this.name = name;
         this.time = time;
         this.creatorId = creatorId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
     @Override
     public Walk performAction() {
-        return receiver.addWalk(creatorId, name, time);
+        return receiver.addWalk(creatorId, name, time, latitude, longitude);
     }
     
 }

@@ -26,6 +26,10 @@ public class Walk {
     private Route route;
     private LocalDateTime time;
 
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location; 
+    
     public Walk(Long userId, String name, LocalDateTime time){
         this.creatorId = userId;
         this.name = name;
@@ -86,4 +90,12 @@ public class Walk {
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
+
+    public Location getLocation() {
+    return location;
+}
+
+    public void setLocation(Location location) {
+        this.location = location;
+    } 
 }
