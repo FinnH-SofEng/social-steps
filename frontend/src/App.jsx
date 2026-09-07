@@ -7,6 +7,7 @@ import Friends from './Friends'
 import CreateInvite from './FriendForm'
 import Notifications from './Notifications'
 import SendInvite from './WalkInvite'
+import ConnectCalendar from './GoogleCalendarForm'
 
 function App() {
   const [walks, setWalks] = useState([])
@@ -43,6 +44,24 @@ function App() {
     console.log(user); 
   }
 
+  async function addToGoogleCalendar(walkId) {
+    try {
+      await axios.post(
+        `http://localhost:8081/api/google/calendar/walk/${walkId}`,
+        null,
+        {
+          params: {
+            userId: id
+          }
+        }
+      );
+
+      alert("Walk added to Google Calendar");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
   if (status === 'logged in' && id !== -1) {
     loadWalks();
@@ -72,6 +91,14 @@ function App() {
         walkId={walk.id}
         onInviteSent={loadNotifications}
         />
+        <ConnectCalendar userId = {id}>
+          
+        </ConnectCalendar>
+
+        <button onClick={() => addToGoogleCalendar(walk.id)}>
+        Add to Google Calendar
+        </button>
+
       </div>  
     ))}
     

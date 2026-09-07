@@ -74,6 +74,24 @@ public class WalkController extends Controller<Walk>{
         return walkManager.getAllWalks();
     }
 
+    @GetMapping("/api/google/connect")
+    public void connectGoogleCalendar(String id) {
+        // redirect user to Google's authorization page
+    }
+
+    @GetMapping("/api/google/callback")
+    public void googleCallback(String id) {
+        // receive authorization code
+        // exchange for access/refresh tokens
+    }
+
+    @PostMapping("/api/google/calendar/walk/{walkId}")
+    public void addWalkToCalendar(@PathVariable Long walkId) {
+        // retrieve walk
+        // use user's Google credentials
+        // create Calendar event
+    }
+
 
 
     

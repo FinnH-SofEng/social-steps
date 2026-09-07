@@ -74,6 +74,10 @@ public class WalkManager {
         notificationRepository.delete(notification);
     }
 
+    public Walk getWalkById(Long id){
+        return walkRepository.findById(id).orElseThrow();
+    }
+
 
     public List<Walk> getAllWalks() {
         return walkRepository.findAll();
